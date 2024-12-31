@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="actions">
-      <TheButton @click="handleClear">clear</TheButton>
+      <TheButton @click="handleReset">reset</TheButton>
     </div>
   </main>
 </template>
@@ -38,7 +38,7 @@ const totalCalories = ref(0);
 const totalFats = ref(0);
 const totalCarbs = ref(0);
 const totalProteins = ref(0);
-const servingGrams = ref(0);
+const servingGrams = ref(100);
 const servingCalories = computed(() => {
   const value = totalCalories.value * gramRatio.value;
   return calculateServing(value);
@@ -63,13 +63,13 @@ const calculateServing = (value) => {
   return format(round(value));
 };
 
-const handleClear = () => {
+const handleReset = () => {
   totalGrams.value = 0;
   totalCalories.value = 0;
   totalFats.value = 0;
   totalCarbs.value = 0;
   totalProteins.value = 0;
-  servingGrams.value = 0;
+  servingGrams.value = 100;
 };
 </script>
 
