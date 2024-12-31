@@ -23,6 +23,10 @@ const uniqueId = uuidv4();
 .label {
   display: grid;
   gap: 0.25rem;
+
+  > * {
+    min-inline-size: 0;
+  }
 }
 
 .input {

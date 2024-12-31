@@ -13,14 +13,13 @@
       <NumberInput v-model="servingGrams" label="grams" />
       <div class="macros">
         <h3>macros</h3>
-        <p>calories: {{ servingCalories }}</p>
-        <p>fats: {{ servingFats }}</p>
-        <p>carbs: {{ servingCarbs }}</p>
-        <p>proteins: {{ servingProteins }}</p>
+        <p>calories: <span>{{ servingCalories }}</span></p>
+        <p>fats: <span>{{ servingFats }}</span></p>
+        <p>carbs: <span>{{ servingCarbs }}</span></p>
+        <p>proteins: <span>{{ servingProteins }}</span></p>
       </div>
     </div>
     <div class="actions">
-      <TheButton @click="populateTestData">populate</TheButton>
       <TheButton @click="handleClear">clear</TheButton>
     </div>
   </main>
@@ -32,14 +31,6 @@ import NumberInput from '@/components/NumberInput.vue';
 import TheButton from '@/components/TheButton.vue';
 import { format } from '@/composables/useFormat.js';
 import { round } from '@/composables/useRound.js';
-
-const populateTestData = () => {
-  totalGrams.value = 1672;
-  totalCalories.value = 1050;
-  totalFats.value = 53;
-  totalCarbs.value = 135;
-  totalProteins.value = 15;
-}
 
 const gramRatio = computed(() => servingGrams.value / totalGrams.value);
 const totalGrams = ref(0);
@@ -88,6 +79,10 @@ const handleClear = () => {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: max-content 1fr;
   gap: 1rem;
+
+  > * {
+    min-inline-size: 0;
+  }
 }
 
 .totals,
@@ -103,9 +98,14 @@ const handleClear = () => {
   border: 2px solid var(--text);
   padding: 1rem;
 
+  > * {
+    min-inline-size: 0;
+  }
+
   p {
-    font-size: 1rem;
-    line-height: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 }
 

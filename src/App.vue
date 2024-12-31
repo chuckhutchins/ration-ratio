@@ -15,7 +15,7 @@ import TheHeader from '@/components/TheHeader.vue';
 <style scoped lang="scss">
 .container {
   width: calc(100% - 2rem);
-  max-width: 960px;
+  max-width: 480px;
   margin: 0 auto;
   box-sizing: border-box;
   padding: 1rem 0;
@@ -24,5 +24,9 @@ import TheHeader from '@/components/TheHeader.vue';
   align-items: start;
   grid-gap: 1rem;
   min-height: 100dvh;
+
+  > * {
+    min-inline-size: 0;
+  }
 }
 </style>
