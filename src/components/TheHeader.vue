@@ -5,14 +5,25 @@
       <span class="slashes">//</span>
       <span class="ratio">ratio</span>
     </h1>
+    <InputCheckbox v-model="isReverse" label="reverse" />
   </header>
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia';
+import { useStore } from '@/stores/Store.js';
+import InputCheckbox from '@/components/InputCheckbox.vue';
+
+const store = useStore();
+const { isReverse } = storeToRefs(store);
 </script>
 
 <style scoped lang="scss">
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
   border-block-end: 2px solid;
   padding-block-end: 1rem;
 
