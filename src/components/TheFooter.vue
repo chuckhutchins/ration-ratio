@@ -1,28 +1,27 @@
 <template>
   <footer class="footer">
-    <p class="copyright">
+    <p>
+      <a href="https://github.com/chuckhutchins/ration-ratio" target="_blank">source</a>
+    </p>
+    <p>
       made with 🍕
     </p>
   </footer>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped lang="scss">
 .footer {
-  display: grid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   padding-block-start: 1rem;
   border-block-start: 2px solid;
 
-  > * {
-    min-inline-size: 0;
-  }
-
-  .copyright {
-    line-height: 1;
-    text-align: end;
+  p {
+    line-height: 1rem;
   }
 }
 </style>
