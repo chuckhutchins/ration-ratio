@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <TheHeader />
-    <RatioCalculator />
+    <TheMain />
     <TheFooter />
   </div>
 </template>
 
 <script setup>
-import RatioCalculator from '@/components/RatioCalculator.vue';
 import TheFooter from '@/components/TheFooter.vue';
 import TheHeader from '@/components/TheHeader.vue';
+import TheMain from '@/components/TheMain.vue';
 </script>
 
 <style scoped lang="scss">

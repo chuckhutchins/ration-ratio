@@ -1,7 +1,7 @@
 <template>
-  <main class="main">
+  <main class="ratio-calculator">
     <div class="totals">
-      <h2>totals</h2>
+      <h2>{{ inputColumnText }}</h2>
       <NumberInput v-model="totalGrams" label="grams" />
       <NumberInput v-model="totalCalories" label="calories" />
       <NumberInput v-model="totalFats" label="fats" />
@@ -9,7 +9,7 @@
       <NumberInput v-model="totalProteins" label="proteins" />
     </div>
     <div class="calculated">
-      <h2>per serving</h2>
+      <h2>{{ outputColumnText }}</h2>
       <NumberInput v-model="servingGrams" label="grams" />
       <div class="macros">
         <h3>macros</h3>
@@ -20,26 +20,29 @@
       </div>
     </div>
     <div class="actions">
-      <TheButton @click="generateSampleData">sample</TheButton>
-      <TheButton @click="handleReset">reset</TheButton>
-      <TheButton :isPrimary="true" @click="handleSave">save</TheButton>
+      <TheButton v-if="showSampleDataButton" @click="generateSampleData">
+        sample
+      </TheButton>
+      <TheButton @click="handleReset">
+        reset
+      </TheButton>
+      <TheButton :isPrimary="true" @click="handleSave">
+        save
+      </TheButton>
     </div>
-    <FoodList
-      v-if="hasFoodList"
-      :foodList="foodList"
-      @removeItem="handleRemoveItem"
-    />
   </main>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
-import FoodList from '@/components/FoodList.vue';
+import { storeToRefs } from 'pinia';
+import { useStore } from '@/stores/Store.js';
 import NumberInput from '@/components/NumberInput.vue';
 import TheButton from '@/components/TheButton.vue';
 import { calculateCombination } from '@/composables/useCalculation.js';
 import { v4 as uuidv4 } from 'uuid';
 
+const showSampleDataButton = ref(true);
 const generateSampleData = () => {
   totalGrams.value = 1672;
   totalCalories.value = 1050;
@@ -48,6 +51,12 @@ const generateSampleData = () => {
   totalProteins.value = 15;
   servingGrams.value = 100;
 }
+
+const store = useStore();
+const { foodList, isReverse } = storeToRefs(store);
+
+const inputColumnText = computed(() => isReverse.value ? 'per serving' : 'totals');
+const outputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 
 const gramRatio = computed(() => servingGrams.value / totalGrams.value);
 const totalGrams = ref();
@@ -82,10 +91,7 @@ const handleReset = () => {
   servingGrams.value = undefined;
 };
 
-const foodList = ref([]);
-const hasFoodList = computed(() => foodList.value.length > 0);
 const handleSave = () => {
-  // TODO: save out current item in list
   const item = {
     id: uuidv4(),
     calories: servingCalories.value,
@@ -96,21 +102,10 @@ const handleSave = () => {
   foodList.value.push(item);
   handleReset();
 }
-
-const handleRemoveItem = (foodItem) => {
-  const foundIndex = foodList.value.findIndex((item) => item.id === foodItem.id);
-  if (foundIndex === -1) {
-    return;
-  }
-  foodList.value.splice(foundIndex, 1);
-};
-
-// TODO: add ability to remove an item from foodList
-// TODO: add button to add all macros in foodList
 </script>
 
 <style scoped lang="scss">
-.main {
+.ratio-calculator {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: max-content 1fr;
@@ -150,9 +145,5 @@ const handleRemoveItem = (foodItem) => {
   display: flex;
   justify-content: end;
   gap: 1rem;
-}
-
-.food-list {
-  grid-column: span 2;
 }
 </style>
