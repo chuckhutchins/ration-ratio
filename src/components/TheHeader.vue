@@ -1,6 +1,10 @@
 <template>
   <header class="header">
-    <h1>ration//ratio</h1>
+    <h1>
+      <span class="ration">ration</span>
+      <span class="slashes">//</span>
+      <span class="ratio">ratio</span>
+    </h1>
   </header>
 </template>
 
@@ -15,6 +19,15 @@
   h1 {
     font-size: 1.25rem;
     line-height: 1;
+
+    > span {
+      display: inline-block;
+      font-weight: 700;
+    }
+  }
+
+  .ratio {
+    transform: scaleX(-1);
   }
 }
 </style>
