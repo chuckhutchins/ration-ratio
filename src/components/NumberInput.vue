@@ -4,6 +4,7 @@
     <input
       class="input"
       :id="uniqueId"
+      inputmode="decimal"
       :value="modelValue"
       type="number"
       @input="$emit('update:modelValue', $event.target.value)"
