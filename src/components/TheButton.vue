@@ -1,10 +1,12 @@
 <template>
-  <button class="button">
+  <button class="button" :class="{'is-primary': isPrimary}">
     <slot />
   </button>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps(['isPrimary']);
+</script>
 
 <style scoped lang="scss">
 .button {
@@ -25,6 +27,19 @@
   &:focus {
     outline: none;
     border-style: dashed;
+  }
+
+  &.is-primary {
+    background-color: var(--text);
+    color: var(--bg);
+
+    &:hover {
+      background-color: var(--color-dark-gray);
+    }
+
+    &:focus {
+      border-color: var(--bg);
+    }
   }
 }
 </style>
