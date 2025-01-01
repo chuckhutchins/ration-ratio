@@ -2,15 +2,15 @@
   <main class="ratio-calculator">
     <div class="totals">
       <h2>{{ inputColumnText }}</h2>
-      <NumberInput v-model="totalGrams" label="grams" />
-      <NumberInput v-model="totalCalories" label="calories" />
-      <NumberInput v-model="totalFats" label="fats" />
-      <NumberInput v-model="totalCarbs" label="carbs" />
-      <NumberInput v-model="totalProteins" label="proteins" />
+      <InputNumber v-model="totalGrams" label="grams" />
+      <InputNumber v-model="totalCalories" label="calories" />
+      <InputNumber v-model="totalFats" label="fats" />
+      <InputNumber v-model="totalCarbs" label="carbs" />
+      <InputNumber v-model="totalProteins" label="proteins" />
     </div>
     <div class="calculated">
       <h2>{{ outputColumnText }}</h2>
-      <NumberInput v-model="servingGrams" label="grams" />
+      <InputNumber v-model="servingGrams" label="grams" />
       <div class="macros">
         <h3>macros</h3>
         <p>calories: <span>{{ servingCalories }}</span></p>
@@ -37,7 +37,7 @@
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStore } from '@/stores/Store.js';
-import NumberInput from '@/components/NumberInput.vue';
+import InputNumber from '@/components/InputNumber.vue';
 import TheButton from '@/components/TheButton.vue';
 import { calculateCombination } from '@/composables/useCalculation.js';
 import { v4 as uuidv4 } from 'uuid';
