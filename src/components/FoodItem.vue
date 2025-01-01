@@ -18,7 +18,7 @@ import IconClose from '@/components/IconClose.vue';
 const props = defineProps(['foodItem']);
 
 const handleRemoveItem = () => {
-  useStore().removeItem(props.foodItem.id);
+  useStore().removeFoodItem(props.foodItem.id);
 }
 </script>
 
