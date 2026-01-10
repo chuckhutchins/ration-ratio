@@ -1,5 +1,9 @@
 <template>
   <main class="ratio-calculator">
+    <div class="metadata">
+      <h2>metadata</h2>
+      <InputText v-model="name" label="name" />
+    </div>
     <div class="totals">
       <h2>{{ inputColumnText }}</h2>
       <InputNumber v-model="totalGrams" label="grams" />
@@ -18,6 +22,13 @@
         <p>carbs: <span>{{ servingCarbs }}</span></p>
         <p>proteins: <span>{{ servingProteins }}</span></p>
       </div>
+    </div>
+    <div v-if="hasError" class="error-list">
+      <ul>
+        <li v-for="error in errorList" :key="error">
+          {{ error}}
+        </li>
+      </ul>
     </div>
     <div class="actions">
       <TheButton v-if="showSampleDataButton" @click="generateSampleData">
@@ -38,18 +49,20 @@ import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStore } from '@/stores/Store.js';
 import InputNumber from '@/components/InputNumber.vue';
+import InputText from '@/components/InputText.vue';
 import TheButton from '@/components/TheButton.vue';
 import { calculateCombination } from '@/composables/useCalculation.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const showSampleDataButton = ref(true);
 const generateSampleData = () => {
-  totalGrams.value = 1672;
-  totalCalories.value = 1050;
-  totalFats.value = 53;
-  totalCarbs.value = 135;
-  totalProteins.value = 15;
-  servingGrams.value = 100;
+  name.value = 'peanut butter';
+  totalGrams.value = 32;
+  totalCalories.value = 190;
+  totalFats.value = 16;
+  totalCarbs.value = 6;
+  totalProteins.value = 7;
+  servingGrams.value = 70;
 }
 
 const store = useStore();
@@ -58,6 +71,7 @@ const { foodList, isReverse } = storeToRefs(store);
 const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
 
+const name = ref();
 const gramRatio = computed(() => servingGrams.value / totalGrams.value);
 const totalGrams = ref();
 const totalCalories = ref();
@@ -83,17 +97,85 @@ const servingProteins = computed(() => {
 });
 
 const handleReset = () => {
+  name.value = undefined;
   totalGrams.value = undefined;
   totalCalories.value = undefined;
   totalFats.value = undefined;
   totalCarbs.value = undefined;
   totalProteins.value = undefined;
   servingGrams.value = undefined;
+  errorList.value = [];
 };
 
+const hasError = computed(() => errorList.value.length > 0);
+const errorList = ref([]);
+const validate = () => {
+  const isInvalid = (val) => {
+    const num = Number(val);
+    return isNaN(num) || val === undefined || val === null || val === '';
+  };
+
+  // TODO: clean up how validation works
+
+  if (isInvalid(totalGrams.value) || isInvalid(servingGrams.value)) {
+    errorList.value.push('grams cannot be empty.');
+  }
+
+  const primaryGrams = Number(totalGrams.value);
+  const secondaryGrams = Number(servingGrams.value);
+  const calories = Number(totalCalories.value || 0);
+  const fats = Number(totalFats.value || 0);
+  const carbs = Number(totalCarbs.value || 0);
+  const proteins = Number(totalProteins.value || 0);
+
+  if (primaryGrams <= 0 || secondaryGrams <= 0) {
+    errorList.value.push('grams must be greater than 0.');
+  }
+  if (primaryGrams > 10000) {
+    errorList.value.push('grams must be less than or equal to 10,000.');
+  }
+  if (calories > 10000) {
+    errorList.value.push('calories must be less than or equal to 10,000.');
+  }
+  if (calories < 0) {
+    errorList.value.push('calories must be 0 or greater.');
+  }
+  if (fats > 10000) {
+    errorList.value.push('fats must be less than or equal to 10,000.');
+  }
+  if (fats < 0) {
+    errorList.value.push('fats must be 0 or greater.');
+  }
+  if (carbs > 10000) {
+    errorList.value.push('carbs must be less than or equal to 10,000.');
+  }
+  if (carbs < 0) {
+    errorList.value.push('carbs must be 0 or greater.');
+  }
+  if (proteins > 10000) {
+    errorList.value.push('proteins must be less than or equal to 10,000.');
+  }
+  if (proteins < 0) {
+    errorList.value.push('proteins must be 0 or greater.');
+  }
+
+  if ((fats + carbs + proteins) > primaryGrams) {
+    errorList.value.push('the sum of fats, carbs, and proteins must be less than or equal to grams.');
+  }
+
+  console.log(errorList.value);
+}
+
 const handleSave = () => {
+  errorList.value = [];
+  validate();
+  if (hasError.value) {
+    return;
+  }
+
   const item = {
     id: uuidv4(),
+    name: name.value || 'generic food',
     calories: servingCalories.value,
     fats: servingFats.value,
     carbs: servingCarbs.value,
@@ -124,6 +206,11 @@ const handleSave = () => {
   gap: 0.5rem;
 }
 
+.metadata,
+.error-list {
+  grid-column: span 2;
+}
+
 .macros {
   margin-block-start: auto;
   border: 2px solid var(--text);
@@ -138,6 +225,12 @@ const handleSave = () => {
     justify-content: space-between;
     gap: 0.5rem;
   }
+}
+
+.error-list {
+  border: 2px solid var(--color-error);
+  padding: 0.875rem 1rem;
+  color: var(--color-error);
 }
 
 .actions {

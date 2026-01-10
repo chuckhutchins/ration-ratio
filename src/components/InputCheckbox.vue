@@ -40,10 +40,14 @@ const uniqueId = uuidv4();
   display: grid;
   place-content: center;
 
+  > * {
+    min-inline-size: 0;
+  }
+
   &::before {
     content: "";
-    width: 0.5555rem;
-    height: 0.5555rem;
+    inline-size: 0.5555rem;
+    block-size: 0.5555rem;
     transform: scale(0);
     box-shadow: inset 1rem 1rem var(--text);
   }

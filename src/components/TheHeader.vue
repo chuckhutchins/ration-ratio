@@ -6,7 +6,7 @@
       <span class="ratio">ratio</span>
     </h1>
     <div class="actions">
-      <InputCheckbox v-model="isReverse" label="reverse" />
+
       <TheButton @click="handleOpenInstructionsDialog">
         instructions
       </TheButton>

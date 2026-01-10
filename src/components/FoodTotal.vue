@@ -1,5 +1,6 @@
 <template>
     <div class="totals">
+      totals
       {{ totalCalories }}
       <span>//</span>
       {{ totalFats }}
