@@ -56,13 +56,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const showSampleDataButton = ref(true);
 const generateSampleData = () => {
-  name.value = 'slow cooker steel cut oats';
-  totalGrams.value = 1672;
-  totalCalories.value = 1050;
-  totalFats.value = 53;
-  totalCarbs.value = 135;
-  totalProteins.value = 15;
-  servingGrams.value = 100;
+  name.value = 'peanut butter';
+  totalGrams.value = 32;
+  totalCalories.value = 190;
+  totalFats.value = 16;
+  totalCarbs.value = 6;
+  totalProteins.value = 7;
+  servingGrams.value = 70;
 }
 
 const store = useStore();
