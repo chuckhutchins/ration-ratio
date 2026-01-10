@@ -1,5 +1,9 @@
 <template>
   <main class="ratio-calculator">
+    <div class="metadata">
+      <h2>metadata</h2>
+      <InputText v-model="name" label="name" />
+    </div>
     <div class="totals">
       <h2>{{ inputColumnText }}</h2>
       <InputNumber v-model="totalGrams" label="grams" />
@@ -38,12 +42,14 @@ import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStore } from '@/stores/Store.js';
 import InputNumber from '@/components/InputNumber.vue';
+import InputText from '@/components/InputText.vue';
 import TheButton from '@/components/TheButton.vue';
 import { calculateCombination } from '@/composables/useCalculation.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const showSampleDataButton = ref(true);
 const generateSampleData = () => {
+  name.value = 'slow cooker steel cut oats';
   totalGrams.value = 1672;
   totalCalories.value = 1050;
   totalFats.value = 53;
@@ -58,6 +64,7 @@ const { foodList, isReverse } = storeToRefs(store);
 const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
 
+const name = ref();
 const gramRatio = computed(() => servingGrams.value / totalGrams.value);
 const totalGrams = ref();
 const totalCalories = ref();
@@ -83,6 +90,7 @@ const servingProteins = computed(() => {
 });
 
 const handleReset = () => {
+  name.value = undefined;
   totalGrams.value = undefined;
   totalCalories.value = undefined;
   totalFats.value = undefined;
@@ -94,6 +102,7 @@ const handleReset = () => {
 const handleSave = () => {
   const item = {
     id: uuidv4(),
+    name: name.value || 'generic food',
     calories: servingCalories.value,
     fats: servingFats.value,
     carbs: servingCarbs.value,
@@ -122,6 +131,10 @@ const handleSave = () => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.metadata {
+  grid-column: span 2;
 }
 
 .macros {

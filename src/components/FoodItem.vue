@@ -1,9 +1,9 @@
 <template>
   <li class="item">
-    <span>{{ foodItem.calories }}</span>
-    <span>{{ foodItem.fats }}</span>
-    <span>{{ foodItem.carbs }}</span>
-    <span>{{ foodItem.proteins }}</span>
+    <span class="name">{{ foodItem.name }}</span>
+    <span>
+      {{ foodItem.calories }}/{{ foodItem.fats }}/{{ foodItem.carbs }}/{{ foodItem.proteins }}
+    </span>
     <button class="button-close" @click="handleRemoveItem">
       <IconClose />
       <span class="sr-only">Remove Item</span>
@@ -17,15 +17,17 @@ import IconClose from '@/components/IconClose.vue';
 
 const props = defineProps(['foodItem']);
 
+const store = useStore();
+
 const handleRemoveItem = () => {
-  useStore().removeFoodItem(props.foodItem.id);
+  store.removeFoodItem(props.foodItem.id);
 }
 </script>
 
 <style scoped lang="scss">
 .item {
   display: grid;
-  grid-template-columns: repeat(4, 1fr) max-content;
+  grid-template-columns: 1fr repeat(2, max-content);
   align-items: center;
   gap: 1rem;
 
@@ -33,9 +35,15 @@ const handleRemoveItem = () => {
     min-inline-size: 0;
   }
 
-  span {
+  span:not(.name) {
     text-align: end;
   }
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .button-close {
