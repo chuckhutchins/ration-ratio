@@ -1,15 +1,26 @@
 <template>
   <footer class="footer">
     <p>
-      <a href="https://github.com/chuckhutchins/ration-ratio" target="_blank">source</a>
+      <TheButton @click="handleOpenInfoDialog">info</TheButton>
     </p>
     <p>
       made with 🍕
     </p>
   </footer>
+  <InfoDialog ref="infoDialog" />
 </template>
 
-<script setup></script>
+<script setup>
+import { useTemplateRef } from 'vue';
+import InfoDialog from '@/components/InfoDialog.vue';
+import TheButton from '@/components/TheButton.vue';
+
+const infoDialogRef = useTemplateRef('infoDialog');
+
+const handleOpenInfoDialog = () => {
+  infoDialogRef.value.openDialog();
+}
+</script>
 
 <style scoped lang="scss">
 .footer {
