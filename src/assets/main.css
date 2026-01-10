@@ -42,32 +42,32 @@ body {
 
 img {
   display: block;
-  max-width: 100%;
+  max-inline-size: 100%;
   margin: 0 auto;
 }
 
 img[width] {
-  width: auto;
+  inline-size: auto;
 }
 
 img[width][height] {
-  height: auto;
+  block-size: auto;
 }
 
 img[src$=".svg"] {
-  width: 100%;
-  height: auto;
-  max-width: none;
+  inline-size: 100%;
+  block-size: auto;
+  max-inline-size: none;
 }
 
 .sr-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
-  height: 1px;
+  block-size: 1px;
   overflow: hidden;
   position: absolute;
   white-space: nowrap;
-  width: 1px;
+  inline-size: 1px;
 }
 
 h1,

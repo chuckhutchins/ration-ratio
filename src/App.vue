@@ -14,8 +14,8 @@ import TheMain from '@/components/TheMain.vue';
 
 <style scoped lang="scss">
 .container {
-  width: calc(100% - 2rem);
-  max-width: 480px;
+  inline-size: calc(100% - 2rem);
+  max-inline-size: 480px;
   margin: 0 auto;
   box-sizing: border-box;
   padding: 1rem 0;
@@ -23,7 +23,7 @@ import TheMain from '@/components/TheMain.vue';
   grid-template-rows: auto 1fr auto;
   align-items: start;
   grid-gap: 1rem;
-  min-height: 100dvh;
+  min-block-size: 100dvh;
 
   > * {
     min-inline-size: 0;

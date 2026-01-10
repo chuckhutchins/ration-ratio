@@ -71,7 +71,6 @@ defineExpose({ openDialog });
 }
 
 .dialog {
-
   display: grid;
   grid-template-rows: minmax(1.5rem, 1fr);
   grid-template-columns: 1fr 1rem;
