@@ -5,17 +5,32 @@
       <span class="slashes">//</span>
       <span class="ratio">ratio</span>
     </h1>
-    <InputCheckbox v-model="isReverse" label="reverse" />
+    <div class="actions">
+      <InputCheckbox v-model="isReverse" label="reverse" />
+      <TheButton @click="handleOpenInstructionsDialog">
+        instructions
+      </TheButton>
+    </div>
   </header>
+  <InstructionsDialog ref="instructionsDialog" />
 </template>
 
 <script setup>
+import { useTemplateRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStore } from '@/stores/Store.js';
+import InstructionsDialog from '@/components/InstructionsDialog.vue';
 import InputCheckbox from '@/components/InputCheckbox.vue';
+import TheButton from '@/components/TheButton.vue';
 
 const store = useStore();
 const { isReverse } = storeToRefs(store);
+
+const instructionsDialogRef = useTemplateRef('instructionsDialog');
+
+const handleOpenInstructionsDialog = () => {
+  instructionsDialogRef.value.openDialog();
+}
 </script>
 
 <style scoped lang="scss">
@@ -40,5 +55,10 @@ const { isReverse } = storeToRefs(store);
   .ratio {
     transform: scaleX(-1);
   }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
 }
 </style>

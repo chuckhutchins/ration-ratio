@@ -55,8 +55,8 @@ const generateSampleData = () => {
 const store = useStore();
 const { foodList, isReverse } = storeToRefs(store);
 
-const inputColumnText = computed(() => isReverse.value ? 'per serving' : 'totals');
-const outputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
+const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
+const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
 
 const gramRatio = computed(() => servingGrams.value / totalGrams.value);
 const totalGrams = ref();
