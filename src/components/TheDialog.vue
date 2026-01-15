@@ -3,6 +3,8 @@
     ref="dialog"
     class="dialog-wrapper"
     inert
+    @close="handleDialogClose"
+    @cancel="handleDialogCancel"
   >
     <div class="dialog">
       <div class="header">
@@ -32,12 +34,21 @@ const dialogRef = useTemplateRef('dialog');
 const openDialog = () => {
   dialogRef.value.removeAttribute('inert');
   dialogRef.value.showModal();
-}
+};
 
 const closeDialog = () => {
   dialogRef.value.close();
   dialogRef.value.setAttribute('inert', '');
-}
+};
+
+const handleDialogClose = () => {
+  dialogRef.value.setAttribute('inert', '');
+};
+
+const handleDialogCancel = (event) => {
+  event.preventDefault();
+  closeDialog();
+};
 
 defineExpose({ openDialog });
 </script>

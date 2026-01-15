@@ -1,11 +1,16 @@
 <template>
-  <button class="button" :class="{'is-primary': isPrimary}">
+  <button class="button" type="button" :class="{'is-primary': isPrimary}">
     <slot />
   </button>
 </template>
 
 <script setup>
-defineProps(['isPrimary']);
+defineProps({
+  isPrimary: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <style scoped lang="scss">
