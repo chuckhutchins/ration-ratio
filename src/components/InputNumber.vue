@@ -5,9 +5,9 @@
       class="input"
       :id="uniqueId"
       inputmode="decimal"
-      :value="modelValue"
+      :value="modelValue ?? ''"
       type="number"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
     >
   </label>
 </template>
@@ -15,9 +15,29 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 
-defineProps(['label', 'modelValue']);
+defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  modelValue: {
+    type: [Number, String],
+    default: undefined,
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
 
 const uniqueId = uuidv4();
+
+const handleInput = (event) => {
+  const { value, valueAsNumber } = event.target;
+  if (value === '' || Number.isNaN(valueAsNumber)) {
+    emit('update:modelValue', undefined);
+    return;
+  }
+  emit('update:modelValue', valueAsNumber);
+};
 </script>
 
 <style scoped lang="scss">

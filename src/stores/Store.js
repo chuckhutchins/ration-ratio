@@ -6,6 +6,9 @@ export const useStore = defineStore('store', {
     foodList: [],
   }),
   actions: {
+    addFoodItem(item) {
+      this.foodList.push(item);
+    },
     removeFoodItem(id) {
       const foundIndex = this.foodList.findIndex((item) => item.id === id);
       if (foundIndex === -1) {

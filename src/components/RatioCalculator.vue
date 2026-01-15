@@ -66,35 +66,41 @@ const generateSampleData = () => {
 }
 
 const store = useStore();
-const { foodList, isReverse } = storeToRefs(store);
+const { isReverse } = storeToRefs(store);
 
 const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
 
 const name = ref();
-const gramRatio = computed(() => servingGrams.value / totalGrams.value);
+const toNumber = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+};
+const gramRatio = computed(() => {
+  const total = toNumber(totalGrams.value);
+  const serving = toNumber(servingGrams.value);
+  if (total === null || serving === null || total <= 0) {
+    return null;
+  }
+  return serving / total;
+});
 const totalGrams = ref();
 const totalCalories = ref();
 const totalFats = ref();
 const totalCarbs = ref();
 const totalProteins = ref();
 const servingGrams = ref();
-const servingCalories = computed(() => {
-  const value = totalCalories.value * gramRatio.value;
-  return calculateCombination(value);
-});
-const servingFats = computed(() => {
-  const value = totalFats.value * gramRatio.value;
-  return calculateCombination(value);
-});
-const servingCarbs = computed(() => {
-  const value = totalCarbs.value * gramRatio.value;
-  return calculateCombination(value);
-});
-const servingProteins = computed(() => {
-  const value = totalProteins.value * gramRatio.value;
-  return calculateCombination(value);
-});
+const calculateServing = (value) => {
+  if (gramRatio.value === null) {
+    return calculateCombination(0);
+  }
+  const number = toNumber(value) ?? 0;
+  return calculateCombination(number * gramRatio.value);
+};
+const servingCalories = computed(() => calculateServing(totalCalories.value));
+const servingFats = computed(() => calculateServing(totalFats.value));
+const servingCarbs = computed(() => calculateServing(totalCarbs.value));
+const servingProteins = computed(() => calculateServing(totalProteins.value));
 
 const handleReset = () => {
   name.value = undefined;
@@ -181,7 +187,7 @@ const handleSave = () => {
     carbs: servingCarbs.value,
     proteins: servingProteins.value,
   }
-  foodList.value.push(item);
+  store.addFoodItem(item);
   handleReset();
 }
 </script>

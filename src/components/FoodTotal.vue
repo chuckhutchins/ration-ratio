@@ -20,18 +20,27 @@ import { calculateCombination } from '@/composables/useCalculation.js';
 const store = useStore();
 const { foodList } = storeToRefs(store);
 
-const sumValues = (type) => {
-  let total = 0;
-  foodList.value.forEach(item => {
-    total += Number(item[type]);
-  });
-  return calculateCombination(total);
-}
+const toNumber = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+};
 
-const totalCalories = computed(() => sumValues('calories'));
-const totalFats = computed(() => sumValues('fats'));
-const totalCarbs = computed(() => sumValues('carbs'));
-const totalProteins = computed(() => sumValues('proteins'));
+const totals = computed(() => foodList.value.reduce((accumulator, item) => ({
+  calories: accumulator.calories + toNumber(item.calories),
+  fats: accumulator.fats + toNumber(item.fats),
+  carbs: accumulator.carbs + toNumber(item.carbs),
+  proteins: accumulator.proteins + toNumber(item.proteins),
+}), {
+  calories: 0,
+  fats: 0,
+  carbs: 0,
+  proteins: 0,
+}));
+
+const totalCalories = computed(() => calculateCombination(totals.value.calories));
+const totalFats = computed(() => calculateCombination(totals.value.fats));
+const totalCarbs = computed(() => calculateCombination(totals.value.carbs));
+const totalProteins = computed(() => calculateCombination(totals.value.proteins));
 </script>
 
 <style scoped lang="scss">
