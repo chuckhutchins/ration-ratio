@@ -66,7 +66,7 @@ const generateSampleData = () => {
 }
 
 const store = useStore();
-const { foodList, isReverse } = storeToRefs(store);
+const { isReverse } = storeToRefs(store);
 
 const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
@@ -181,7 +181,7 @@ const handleSave = () => {
     carbs: servingCarbs.value,
     proteins: servingProteins.value,
   }
-  foodList.value.push(item);
+  store.addFoodItem(item);
   handleReset();
 }
 </script>
