@@ -1,13 +1,17 @@
 <template>
   <dialog
-    ref="dialog"
     class="dialog-wrapper"
-    inert
+    :inert="!isOpen"
+    ref="dialog"
+    :aria-labelledby="headerId"
+    :aria-describedby="contentId"
+    @close="handleCloseDialog"
+    @cancel="handleCloseDialog"
   >
     <div class="dialog">
-      <div class="header">
+      <header class="header" :id="headerId">
         <slot name="header" />
-      </div>
+      </header>
       <button
         class="btn-close"
         type="button"
@@ -16,7 +20,7 @@
         <IconClose />
         <span class="sr-only">Close dialog</span>
       </button>
-      <div class="content">
+      <div class="content" :id="contentId">
         <slot />
       </div>
     </div>
@@ -24,22 +28,52 @@
 </template>
 
 <script setup>
-import { useTemplateRef } from 'vue';
+import { nextTick, ref, useTemplateRef } from 'vue';
 import IconClose from '@/components/IconClose.vue';
+import { v4 as uuidv4 } from 'uuid';
 
 const dialogRef = useTemplateRef('dialog');
+const isOpen = ref(false);
+
+const uniqueId = `dialog-${uuidv4()}`;
+const headerId = `${uniqueId}-header`;
+const contentId = `${uniqueId}-content`;
 
 const openDialog = () => {
-  dialogRef.value.removeAttribute('inert');
+  if (!dialogRef.value) {
+    return;
+  }
+  
   dialogRef.value.showModal();
-}
+  isOpen.value = true;
+  
+  nextTick(() => {
+    const firstFocusable = dialogRef.value.querySelector(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (firstFocusable) {
+      firstFocusable.focus();
+    } else {
+      dialogRef.value.focus();
+    }
+  });
+};
 
 const closeDialog = () => {
+  if (!dialogRef.value) {
+    return;
+  }
+  
   dialogRef.value.close();
-  dialogRef.value.setAttribute('inert', '');
-}
+  isOpen.value = false;
+};
 
-defineExpose({ openDialog });
+const handleCloseDialog = () => {
+  closeDialog();
+};
+
+
+defineExpose({ openDialog, closeDialog });
 </script>
 
 <style scoped lang="scss">
