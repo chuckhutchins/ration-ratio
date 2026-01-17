@@ -5,9 +5,9 @@
     </template>
     <p>welcome to ration//ratio. this is a utility application to quickly generate some basic macros (calories/fats/carbs/proteins) for the food you consume.</p>
     <h3>suggestions or issues</h3>
-    <p>need something? something amiss? please create an issue in the <a href="https://github.com/chuckhutchins/ration-ratio/issues" target="_blank">issues tab</a>.</p>
+    <p>need something? something amiss? please create an issue in the <a href="https://github.com/chuckhutchins/ration-ratio/issues" rel="noopener noreferrer" target="_blank">issues tab</a>.</p>
     <h3>support</h3>
-    <p>this is totally not necessary, but if you'd like to, i have a <a href="https://ko-fi.com/brokendivsociety" target="_blank">ko-fi</a> you can toss a dollar or two at if you like the application.</p>
+    <p>this is totally not necessary, but if you'd like to, i have a <a href="https://ko-fi.com/brokendivsociety" rel="noopener noreferrer" target="_blank">ko-fi</a> you can toss a dollar or two at if you like the application.</p>
   </TheDialog>
 </template>
 
