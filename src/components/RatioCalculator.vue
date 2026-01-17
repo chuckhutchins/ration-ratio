@@ -110,6 +110,8 @@ const handleReset = () => {
 const hasError = computed(() => errorList.value.length > 0);
 const errorList = ref([]);
 const validate = () => {
+  errorList.value = [];
+
   const isInvalid = (val) => {
     const num = Number(val);
     return isNaN(num) || val === undefined || val === null || val === '';
@@ -167,7 +169,6 @@ const validate = () => {
 }
 
 const handleSave = () => {
-  errorList.value = [];
   validate();
   if (hasError.value) {
     return;
