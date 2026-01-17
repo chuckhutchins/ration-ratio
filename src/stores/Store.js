@@ -1,20 +1,17 @@
+import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
 
 /**
  * Pinia store for managing food list and calculation mode state
  * @returns {Object} Store instance with state and actions
  */
 export const useStore = defineStore('store', () => {
-  // State
   const isReverse = ref(false);
   const foodList = ref([]);
 
-  // Getters
   const hasFoodItems = computed(() => foodList.value.length > 0);
   const foodListLength = computed(() => foodList.value.length);
 
-  // Actions
   /**
    * Adds a food item to the list
    * @param {Object} item - Food item object with id, name, calories, fats, carbs, proteins
@@ -51,13 +48,13 @@ export const useStore = defineStore('store', () => {
   };
 
   return {
-    // State
+    // state
     foodList,
     isReverse,
-    // Getters
+    // getters
     hasFoodItems,
     foodListLength,
-    // Actions
+    // actions
     addFoodItem,
     removeFoodItem,
     resetFoodList,
