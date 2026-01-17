@@ -4,9 +4,8 @@
       :checked="modelValue"
       class="input"
       :id="uniqueId"
-      :value="modelValue"
       type="checkbox"
-      @input="$emit('update:modelValue', $event.target.checked)"
+      @change="handleChange"
     >
     {{ label }}
   </label>
@@ -15,9 +14,24 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 
-defineProps(['label', 'modelValue']);
+const emit = defineEmits(['update:modelValue']);
+
+defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const uniqueId = uuidv4();
+
+const handleChange = (event) => {
+  emit('update:modelValue', event.target.checked);
+};
 </script>
 
 <style scoped lang="scss">
