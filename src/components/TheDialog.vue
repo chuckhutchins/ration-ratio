@@ -152,5 +152,9 @@ defineExpose({ openDialog, closeDialog });
 
 .content {
   overflow-y: auto;
+
+&:focus {
+  outline: 3px dashed;
+}
 }
 </style>
