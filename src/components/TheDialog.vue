@@ -81,13 +81,14 @@ defineExpose({ openDialog, closeDialog });
   position: fixed;
   inset: 0;
   margin: auto;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: var(--color-white);
   border: none;
   box-shadow: var(--card-box-shadow);
   border-radius: 0.5rem;
   inline-size: 30rem;
   max-inline-size: min(90vw, 30rem);
+  block-size: 100%;
   max-block-size: min(80vh, 100%);
   max-block-size: min(80dvb, 100%);
   overflow: hidden;
@@ -107,13 +108,10 @@ defineExpose({ openDialog, closeDialog });
 .dialog {
   display: grid;
   grid-template-rows: minmax(1.5rem, 1fr);
-  grid-template-columns: 1fr 1rem;
-  gap: 1rem 0.5rem;
-
-  @media (min-width: 48rem) {
-    padding: 1.5rem;
-    gap: 1.5rem 0.5rem;
-  }
+  grid-template-columns: 1fr calc(2.5rem + 4px);
+  align-items: start;
+  gap: 1.5rem 0.5rem;
+  max-block-size: 100%;
 
   > * {
     min-inline-size: 0;
@@ -122,8 +120,8 @@ defineExpose({ openDialog, closeDialog });
 
 .btn-close {
   position: absolute;
-  inset-block-start: 0.5rem;
-  inset-inline-end: 0.5rem;
+  inset-block-start: 0;
+  inset-inline-end: 0;
   background-color: transparent;
   border-radius: 0;
   border: 2px solid var(--text);
