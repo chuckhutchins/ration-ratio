@@ -4,7 +4,7 @@
       <TheButton @click="handleOpenInfoDialog">info</TheButton>
     </p>
     <p>
-      made with 🍕
+      made with 🍕 <span class="sr-only">pizza</span> in ✋ <span class="sr-only">michigan</span>
     </p>
   </footer>
   <InfoDialog ref="infoDialog" />

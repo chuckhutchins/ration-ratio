@@ -17,14 +17,8 @@
 
 <script setup>
 import { useTemplateRef } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useStore } from '@/stores/Store.js';
 import InstructionsDialog from '@/components/InstructionsDialog.vue';
-import InputCheckbox from '@/components/InputCheckbox.vue';
 import TheButton from '@/components/TheButton.vue';
-
-const store = useStore();
-const { isReverse } = storeToRefs(store);
 
 const instructionsDialogRef = useTemplateRef('instructionsDialog');
 

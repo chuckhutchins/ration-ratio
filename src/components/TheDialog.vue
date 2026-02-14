@@ -1,13 +1,17 @@
 <template>
   <dialog
-    ref="dialog"
     class="dialog-wrapper"
-    inert
+    :inert="!isOpen"
+    ref="dialog"
+    :aria-labelledby="headerId"
+    :aria-describedby="contentId"
+    @close="handleCloseDialog"
+    @cancel="handleCloseDialog"
   >
     <div class="dialog">
-      <div class="header">
+      <header class="header" :id="headerId">
         <slot name="header" />
-      </div>
+      </header>
       <button
         class="btn-close"
         type="button"
@@ -16,7 +20,7 @@
         <IconClose />
         <span class="sr-only">Close dialog</span>
       </button>
-      <div class="content">
+      <div class="content" :id="contentId">
         <slot />
       </div>
     </div>
@@ -24,38 +28,68 @@
 </template>
 
 <script setup>
-import { useTemplateRef } from 'vue';
+import { nextTick, ref, useTemplateRef } from 'vue';
 import IconClose from '@/components/IconClose.vue';
+import { v4 as uuidv4 } from 'uuid';
 
 const dialogRef = useTemplateRef('dialog');
+const isOpen = ref(false);
+
+const uniqueId = `dialog-${uuidv4()}`;
+const headerId = `${uniqueId}-header`;
+const contentId = `${uniqueId}-content`;
 
 const openDialog = () => {
-  dialogRef.value.removeAttribute('inert');
+  if (!dialogRef.value) {
+    return;
+  }
+  
   dialogRef.value.showModal();
-}
+  isOpen.value = true;
+  
+  nextTick(() => {
+    const firstFocusable = dialogRef.value.querySelector(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (firstFocusable) {
+      firstFocusable.focus();
+    } else {
+      dialogRef.value.focus();
+    }
+  });
+};
 
 const closeDialog = () => {
+  if (!dialogRef.value) {
+    return;
+  }
+  
   dialogRef.value.close();
-  dialogRef.value.setAttribute('inert', '');
-}
+  isOpen.value = false;
+};
 
-defineExpose({ openDialog });
+const handleCloseDialog = () => {
+  closeDialog();
+};
+
+
+defineExpose({ openDialog, closeDialog });
 </script>
 
 <style scoped lang="scss">
 .dialog-wrapper {
+  --max-block-size: 80dvb;
+  --padding: 1.5rem;
   position: fixed;
   inset: 0;
   margin: auto;
-  padding: 1rem;
+  padding: var(--padding);
   background-color: var(--color-white);
   border: none;
   box-shadow: var(--card-box-shadow);
-  border-radius: 0.5rem;
   inline-size: 30rem;
-  max-inline-size: min(90vw, 30rem);
-  max-block-size: min(80vh, 100%);
-  max-block-size: min(80dvb, 100%);
+  max-inline-size: min(90dvw, 30rem);
+  max-block-size: min(var(--max-block-size), 100%);
   overflow: hidden;
   transition: opacity .2s ease;
 
@@ -71,25 +105,20 @@ defineExpose({ openDialog });
 }
 
 .dialog {
-  display: grid;
-  grid-template-rows: minmax(1.5rem, 1fr);
-  grid-template-columns: 1fr 1rem;
-  gap: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-block-size: calc(var(--max-block-size) - (var(--padding) * 2));
+}
 
-  @media (min-width: 48rem) {
-    padding: 1.5rem;
-    gap: 1.5rem 0.5rem;
-  }
-
-  > * {
-    min-inline-size: 0;
-  }
+.header {
+  margin-inline-end: 2.75rem;
 }
 
 .btn-close {
   position: absolute;
-  inset-block-start: 0.5rem;
-  inset-inline-end: 0.5rem;
+  inset-block-start: -0.5rem;
+  inset-inline-end: -0.5rem;
   background-color: transparent;
   border-radius: 0;
   border: 2px solid var(--text);
@@ -123,20 +152,10 @@ defineExpose({ openDialog });
 }
 
 .content {
-  grid-column: span 2;
   overflow-y: auto;
 
-  :slotted(h3) {
-    margin-bottom: 0.25rem;
-  }
-
-  :slotted(p) {
-    margin-bottom: 0.5rem;
-  }
-
-  :slotted(ul) {
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-  }
+&:focus {
+  outline: 3px dashed;
+}
 }
 </style>

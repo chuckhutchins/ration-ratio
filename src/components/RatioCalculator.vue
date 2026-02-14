@@ -66,7 +66,7 @@ const generateSampleData = () => {
 }
 
 const store = useStore();
-const { foodList, isReverse } = storeToRefs(store);
+const { isReverse } = storeToRefs(store);
 
 const inputColumnText = computed(() => isReverse.value ? 'totals' : 'per serving');
 const outputColumnText = computed(() => isReverse.value ? 'per serving' : 'total');
@@ -110,6 +110,8 @@ const handleReset = () => {
 const hasError = computed(() => errorList.value.length > 0);
 const errorList = ref([]);
 const validate = () => {
+  errorList.value = [];
+
   const isInvalid = (val) => {
     const num = Number(val);
     return isNaN(num) || val === undefined || val === null || val === '';
@@ -162,12 +164,9 @@ const validate = () => {
   if ((fats + carbs + proteins) > primaryGrams) {
     errorList.value.push('the sum of fats, carbs, and proteins must be less than or equal to grams.');
   }
-
-  console.log(errorList.value);
 }
 
 const handleSave = () => {
-  errorList.value = [];
   validate();
   if (hasError.value) {
     return;
@@ -181,7 +180,7 @@ const handleSave = () => {
     carbs: servingCarbs.value,
     proteins: servingProteins.value,
   }
-  foodList.value.push(item);
+  store.addFoodItem(item);
   handleReset();
 }
 </script>

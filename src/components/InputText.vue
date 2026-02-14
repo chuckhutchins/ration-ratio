@@ -4,8 +4,8 @@
     <input
       class="input"
       :id="uniqueId"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="modelValue ?? ''"
+      @input="handleInput"
     >
   </label>
 </template>
@@ -13,9 +13,24 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 
-defineProps(['label', 'modelValue']);
+const emit = defineEmits(['update:modelValue']);
+
+defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  modelValue: {
+    type: String,
+    default: '',
+  },
+});
 
 const uniqueId = uuidv4();
+
+const handleInput = (event) => {
+  emit('update:modelValue', event.target.value);
+};
 </script>
 
 <style scoped lang="scss">
