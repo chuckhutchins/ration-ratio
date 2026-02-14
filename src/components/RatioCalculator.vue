@@ -164,8 +164,6 @@ const validate = () => {
   if ((fats + carbs + proteins) > primaryGrams) {
     errorList.value.push('the sum of fats, carbs, and proteins must be less than or equal to grams.');
   }
-
-  console.log(errorList.value);
 }
 
 const handleSave = () => {
