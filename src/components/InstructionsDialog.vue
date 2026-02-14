@@ -28,10 +28,10 @@ defineExpose({ openDialog });
 
 <style scoped lang="scss">
 h3 {
-  margin-bottom: 0.25rem;
+  margin-block-end: 0.25rem;
 }
 
 p:not(:last-child) {
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.5rem;
 }
 </style>
