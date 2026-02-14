@@ -85,10 +85,8 @@ defineExpose({ openDialog, closeDialog });
   background-color: var(--color-white);
   border: none;
   box-shadow: var(--card-box-shadow);
-  border-radius: 0.5rem;
   inline-size: 30rem;
   max-inline-size: min(90vw, 30rem);
-  block-size: 100%;
   max-block-size: min(80vh, 100%);
   max-block-size: min(80dvb, 100%);
   overflow: hidden;
@@ -106,16 +104,14 @@ defineExpose({ openDialog, closeDialog });
 }
 
 .dialog {
-  display: grid;
-  grid-template-rows: minmax(1.5rem, 1fr);
-  grid-template-columns: 1fr calc(2.5rem + 4px);
-  align-items: start;
-  gap: 1.5rem 0.5rem;
-  max-block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-block-size: calc(80dvb - 3rem);
+}
 
-  > * {
-    min-inline-size: 0;
-  }
+.header {
+  margin-inline-end: calc(3rem + 4px);
 }
 
 .btn-close {
@@ -155,7 +151,6 @@ defineExpose({ openDialog, closeDialog });
 }
 
 .content {
-  grid-column: span 2;
   overflow-y: auto;
 
   :slotted(h3) {
