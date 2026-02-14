@@ -78,17 +78,18 @@ defineExpose({ openDialog, closeDialog });
 
 <style scoped lang="scss">
 .dialog-wrapper {
+  --max-block-size: 80dvb;
+  --padding: 1.5rem;
   position: fixed;
   inset: 0;
   margin: auto;
-  padding: 1.5rem;
+  padding: var(--padding);
   background-color: var(--color-white);
   border: none;
   box-shadow: var(--card-box-shadow);
   inline-size: 30rem;
-  max-inline-size: min(90vw, 30rem);
-  max-block-size: min(80vh, 100%);
-  max-block-size: min(80dvb, 100%);
+  max-inline-size: min(90dvw, 30rem);
+  max-block-size: min(var(--max-block-size), 100%);
   overflow: hidden;
   transition: opacity .2s ease;
 
@@ -107,7 +108,7 @@ defineExpose({ openDialog, closeDialog });
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-block-size: calc(80dvb - 3rem);
+  max-block-size: calc(var(--max-block-size) - (var(--padding) * 2));
 }
 
 .header {
@@ -116,11 +117,11 @@ defineExpose({ openDialog, closeDialog });
 
 .btn-close {
   position: absolute;
-  inset-block-start: -0.55rem;
-  inset-inline-end: -0.55rem;
+  inset-block-start: -0.5rem;
+  inset-inline-end: -0.5rem;
   background-color: transparent;
   border-radius: 0;
-  border: 3px solid var(--text);
+  border: 2px solid var(--text);
   padding: 0.25rem;
   transition: 0.2s;
   aspect-ratio: 1;
