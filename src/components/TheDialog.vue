@@ -111,16 +111,16 @@ defineExpose({ openDialog, closeDialog });
 }
 
 .header {
-  margin-inline-end: calc(3rem + 4px);
+  margin-inline-end: 2.75rem;
 }
 
 .btn-close {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
+  inset-block-start: -0.55rem;
+  inset-inline-end: -0.55rem;
   background-color: transparent;
   border-radius: 0;
-  border: 2px solid var(--text);
+  border: 3px solid var(--text);
   padding: 0.25rem;
   transition: 0.2s;
   aspect-ratio: 1;
