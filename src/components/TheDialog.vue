@@ -152,18 +152,5 @@ defineExpose({ openDialog, closeDialog });
 
 .content {
   overflow-y: auto;
-
-  :slotted(h3) {
-    margin-bottom: 0.25rem;
-  }
-
-  :slotted(p) {
-    margin-bottom: 0.5rem;
-  }
-
-  :slotted(ul) {
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-  }
 }
 </style>

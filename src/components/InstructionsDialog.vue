@@ -25,3 +25,13 @@ const openDialog = () => {
 
 defineExpose({ openDialog });
 </script>
+
+<style scoped lang="scss">
+h3 {
+  margin-bottom: 0.25rem;
+}
+
+p:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+</style>
